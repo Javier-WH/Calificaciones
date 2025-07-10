@@ -3,13 +3,15 @@ import { JSX } from 'react'
 
 export default function GenderSelector({
   gender,
-  setGender
+  setGender,
+  width = '100%'
 }: {
   gender: string
   setGender: (value: string) => void
+  width?: string
 }): JSX.Element {
   return (
-    <div style={{ width: '100%', height: '90px', position: 'relative' }}>
+    <div style={{ width: width, height: '90px', position: 'relative' }}>
       <label
         htmlFor="gender"
         style={{

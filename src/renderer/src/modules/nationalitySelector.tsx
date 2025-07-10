@@ -1,5 +1,6 @@
 import { JSX } from 'react'
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown'
+import { FloatLabel } from 'primereact/floatlabel'
 
 interface Nationality {
   name: string
@@ -25,26 +26,17 @@ export default function NationalitySelector({
 
   return (
     <div style={{ width, height: '90px', position: 'relative' }}>
-      <label
-        htmlFor="nationality"
-        style={{
-          position: 'absolute',
-          top: '-23px',
-          left: '10px',
-          fontSize: '12px',
-          color: 'var(--text-color-secondary)'
-        }}
-      >
-        Nacionalidad
-      </label>
-      <Dropdown
-        value={nationality}
-        onChange={(e: DropdownChangeEvent) => setNationality(e.value)}
-        options={cities}
-        optionLabel="name"
-        placeholder="Seleccione una nacionalidad"
-        style={{ width: '100%' }}
-      />
+      <FloatLabel>
+        <Dropdown
+          value={nationality}
+          onChange={(e: DropdownChangeEvent) => setNationality(e.value)}
+          options={cities}
+          optionLabel="name"
+          placeholder="Seleccione una nacionalidad"
+          style={{ width: '100%' }}
+        />
+        <label htmlFor="birth_date">Nacionalidad</label>
+      </FloatLabel>
     </div>
   )
 }

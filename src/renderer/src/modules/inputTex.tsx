@@ -20,12 +20,14 @@ export default function CustomInputText({
   width?: string
   type?: 'text' | 'number'
 }): JSX.Element {
+  const inputValueForNumber = type === 'number' && isNaN(Number(value)) ? null : Number(value)
+
   return (
     <div style={{ width, height: '90px' }}>
       <FloatLabel>
         {type === 'number' ? (
           <InputNumber
-            value={Number(value)}
+            value={inputValueForNumber}
             onChange={onChange}
             style={{ width: '100%' }}
             invalid={error}

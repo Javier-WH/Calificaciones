@@ -7,11 +7,17 @@ import { JSX } from 'react/jsx-runtime'
 export default function CustomCalendar({
   date,
   setDate,
-  width = '100%'
+  width = '100%',
+  label,
+  error,
+  message
 }: {
   date: Nullable<Date>
   setDate: (value: Nullable<Date>) => void
   width?: string
+  label: string
+  error: boolean
+  message: string
 }): JSX.Element {
   addLocale('es', {
     firstDayOfWeek: 1,
@@ -61,9 +67,13 @@ export default function CustomCalendar({
           showIcon
           showButtonBar
           style={{ width: '100%' }}
+          invalid={error}
         />
-        <label htmlFor="birth_date">Fecha de nacimiento (dia/mes/año)</label>
+        <label htmlFor="birth_date">{label}</label>
       </FloatLabel>
+      <small id="username-help" className={error ? 'p-error' : ''}>
+        {message}
+      </small>
     </div>
   )
 }
