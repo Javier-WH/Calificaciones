@@ -1,24 +1,28 @@
 import { createHashRouter } from 'react-router-dom'
 import Layout from './components/layout/mainLayout'
+import RegisterStudent from './components/registerStudent/registerStudent'
 
-// 1. Definir las rutas como un array de objetos
 const routes = [
   {
     path: '/',
     element: <Layout />,
     children: [
       {
-        index: true, // Esto hace que '/'(la ruta padre) renderice HomePage por defecto
+        index: true,
         element: <h1>Home</h1>
       },
       {
         path: 'about',
         element: <h1>Acerca de</h1>
+      },
+      {
+        path: 'register-student',
+        element: <RegisterStudent />
       }
     ]
   },
   {
-    path: '*', // Ruta comodín para 404
+    path: '*',
     element: <h1>404</h1>
   }
 ]

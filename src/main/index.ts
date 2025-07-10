@@ -9,10 +9,13 @@ import initModels from './database/initModels'
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1024,
+    height: 800,
+    minWidth: 1024,
+    minHeight: 800,
     show: false,
     autoHideMenuBar: true,
+    icon,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
