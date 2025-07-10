@@ -113,8 +113,13 @@ export default function RegisterStudent(): React.JSX.Element {
     }
 
     if (age < 0) {
+      const bd = birthDate?.toLocaleDateString('es-ES', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      })
+      setBirthDateError(`(${bd}) Esa fecha no existe todavia`)
       setBirthDate(undefined)
-      setBirthDateError('Esa fecha no existe todavia')
       return <></>
     }
     studentAge = age
