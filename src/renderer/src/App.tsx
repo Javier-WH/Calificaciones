@@ -1,8 +1,34 @@
 import Versions from './components/Versions'
 import electronLogo from './assets/electron.svg'
+import { CreateStudentDataInterface } from '../../interfaces/sharedInterfaces'
 
 function App(): React.JSX.Element {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const ipcHandle = async (): Promise<void> => {
+    const studentData: CreateStudentDataInterface = {
+      ci: '12345678',
+      name: 'John',
+      lastName: 'Doe',
+      nationality: 'Colombia',
+      gender: 'M',
+      birdthDate: '1990-01-01'
+    }
+
+    try {
+      // Await la respuesta directamente de la llamada a createStudent
+      const response = await window.database.createStudent(studentData)
+
+      if (response.success) {
+        // Si la operación fue exitosa, 'response.data' contendrá el estudiante creado
+        console.log('Datos del estudiante creado:', response.message)
+      } else {
+        // Si hubo un error, 'response.data' contendrá el mensaje de error
+        console.error('Detalles del error:', response.message)
+      }
+    } catch (error: unknown) {
+      // Este catch manejará errores inesperados en la comunicación IPC o en la Promesa.
+      console.error('Error de IPC:', error)
+    }
+  }
 
   return (
     <>

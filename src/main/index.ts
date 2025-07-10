@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import IPCmain from './IPCHandler/IPCmain'
+import IPCdataBase from './IPCHandler/IPCdataBase'
 import initModels from './database/initModels'
 
 function createWindow(): void {
@@ -53,6 +54,7 @@ app.whenReady().then(() => {
 
   // IPC test
   IPCmain()
+  IPCdataBase()
 
   initModels(app)
   createWindow()
