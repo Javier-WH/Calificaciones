@@ -12,7 +12,7 @@ export default function CustomInputText({
   width = '100%',
   type = 'text'
 }: {
-  value: string
+  value: string | number | undefined
   onChange: (value) => void
   label: string
   error: boolean
@@ -21,6 +21,7 @@ export default function CustomInputText({
   type?: 'text' | 'number'
 }): JSX.Element {
   const inputValueForNumber = type === 'number' && isNaN(Number(value)) ? null : Number(value)
+  const inputValueForText = type === 'text' ? value?.toString() : ''
 
   return (
     <div style={{ width, height: '90px' }}>
@@ -35,7 +36,12 @@ export default function CustomInputText({
             locale="es-ES"
           />
         ) : (
-          <InputText value={value} onChange={onChange} style={{ width: '100%' }} invalid={error} />
+          <InputText
+            value={inputValueForText}
+            onChange={onChange}
+            style={{ width: '100%' }}
+            invalid={error}
+          />
         )}
 
         <label htmlFor="username">{label}</label>

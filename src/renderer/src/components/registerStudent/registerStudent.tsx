@@ -16,7 +16,7 @@ export default function RegisterStudent(): React.JSX.Element {
   const [ciErrror, setCiError] = useState('')
   const [nationality, setNationality] = useState({ name: 'Venezolano', code: 'V' })
   const [gender, setGender] = useState('M')
-  const [birthDate, setBirthDate] = useState<Nullable<Date>>(new Date())
+  const [birthDate, setBirthDate] = useState<Nullable<Date>>()
   const [birthDateError, setBirthDateError] = useState('')
   let studentAge = 0
 
@@ -88,9 +88,9 @@ export default function RegisterStudent(): React.JSX.Element {
     }
   }
 
-  const getAge = (): JSX.Element => {
+  const calculateAge = (): number | null => {
     if (!birthDate) {
-      return <></>
+      return null
     }
     const today = new Date()
     const birthYear = birthDate.getFullYear()
@@ -102,6 +102,20 @@ export default function RegisterStudent(): React.JSX.Element {
 
     if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
       age--
+    }
+
+    return age
+  }
+  const getAge = (): JSX.Element => {
+    const age = calculateAge()
+    if (age === null) {
+      return <></>
+    }
+
+    if (age < 0) {
+      setBirthDate(undefined)
+      setBirthDateError('Esa fecha no existe todavia')
+      return <></>
     }
     studentAge = age
     return (
@@ -193,7 +207,7 @@ export default function RegisterStudent(): React.JSX.Element {
             date={birthDate}
             setDate={handleBirthDateChange}
             width="250px"
-            label="Fecha de nacimiento (dia/mes/año)"
+            label="Fecha de nacimiento"
             error={birthDateError !== ''}
             message={birthDateError}
           />
