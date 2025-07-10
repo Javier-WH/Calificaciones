@@ -2,6 +2,7 @@ import Versions from './components/Versions'
 import electronLogo from './assets/electron.svg'
 import { CreateStudentDataInterface } from '../../interfaces/sharedInterfaces'
 
+// borrar app y versions
 function App(): React.JSX.Element {
   const ipcHandle = async (): Promise<void> => {
     const studentData: CreateStudentDataInterface = {
