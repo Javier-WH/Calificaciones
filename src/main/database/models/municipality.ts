@@ -5,10 +5,10 @@ export default class Municipality
   extends Model<MunicipalityInterface, Omit<MunicipalityInterface, 'id'>>
   implements MunicipalityInterface
 {
-  public id!: string
-  public state_id!: string
-  public municipality!: string
-  public active?: boolean
+  id!: string
+  state_id!: string
+  municipality!: string
+  active?: boolean
 }
 
 export function initMunicipalitiesModel(sequelize: Sequelize): void {
@@ -29,8 +29,7 @@ export function initMunicipalitiesModel(sequelize: Sequelize): void {
       },
       municipality: {
         type: DataTypes.STRING(50),
-        allowNull: false,
-        unique: true
+        allowNull: false
       },
       active: {
         type: DataTypes.BOOLEAN,
@@ -42,7 +41,13 @@ export function initMunicipalitiesModel(sequelize: Sequelize): void {
       modelName: 'municipalities',
       timestamps: false,
       charset: 'utf8mb4',
-      collate: 'utf8mb4_unicode_ci'
+      collate: 'utf8mb4_unicode_ci',
+      indexes: [
+        {
+          unique: true,
+          fields: ['state_id', 'municipality']
+        }
+      ]
     }
   )
 }

@@ -5,9 +5,9 @@ export default class State
   extends Model<StateInterface, Omit<StateInterface, 'id'>>
   implements StateInterface
 {
-  public id!: string
-  public state!: string
-  public active?: boolean
+  id!: string
+  state!: string
+  active?: boolean
 }
 
 export function initStatesModel(sequelize: Sequelize): void {

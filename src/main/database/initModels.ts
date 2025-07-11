@@ -5,6 +5,7 @@ import { initStatesModel } from './models/states'
 import { initParishesModel } from './models/parish'
 import { initMunicipalitiesModel } from './models/municipality'
 import { ErrorDialogOptions, showDialog } from '../errorHandler/dialogs'
+import { populateVenezuelaData } from './autoFillStates'
 
 export default async function InitModels(app): Promise<void> {
   const sequelizeInstance = await getSequelizeInstance(app)
@@ -23,6 +24,8 @@ export default async function InitModels(app): Promise<void> {
       console.log(
         'Todos los modelos fueron sincronizados exitosamente (tablas creadas/actualizadas).'
       )
+
+      await populateVenezuelaData()
     } catch (error) {
       console.error('Error al sincronizar los modelos: ', error)
       const errorDialogOptions: ErrorDialogOptions = {

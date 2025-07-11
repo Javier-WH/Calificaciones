@@ -5,10 +5,10 @@ export default class Parish
   extends Model<ParishInterface, Omit<ParishInterface, 'id'>>
   implements ParishInterface
 {
-  public id!: string
-  public municipality_id!: string
-  public parish!: string
-  public active?: boolean
+  id!: string
+  municipality_id!: string
+  parish!: string
+  active?: boolean
 }
 
 export function initParishesModel(sequelize: Sequelize): void {
@@ -29,8 +29,7 @@ export function initParishesModel(sequelize: Sequelize): void {
       },
       parish: {
         type: DataTypes.STRING(50),
-        allowNull: false,
-        unique: true
+        allowNull: false
       },
       active: {
         type: DataTypes.BOOLEAN,
@@ -42,7 +41,13 @@ export function initParishesModel(sequelize: Sequelize): void {
       modelName: 'parishes',
       timestamps: false,
       charset: 'utf8mb4',
-      collate: 'utf8mb4_unicode_ci'
+      collate: 'utf8mb4_unicode_ci',
+      indexes: [
+        {
+          unique: true,
+          fields: ['municipality_id', 'parish']
+        }
+      ]
     }
   )
 }
