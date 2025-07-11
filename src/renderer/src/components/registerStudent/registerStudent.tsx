@@ -7,12 +7,16 @@ import GenderSelector from '../../modules/genderSelector'
 import StateSelector from '../../modules/stateSelector'
 import CountrySelector from '../../modules/countrySelector'
 import RegisterStudentToolbar from './registerStudentToolbar'
+import MunicipalitySelector from '@renderer/modules/municipalitiesSelector'
+import ParishSelector from '@renderer/modules/parishSelector'
+import { InputTextarea } from 'primereact/inputtextarea'
 import { Nullable } from 'primereact/ts-helpers'
 import { Toast } from 'primereact/toast'
 import {
   CreateStudentDataInterface,
   CreateStudentResponseInterface
 } from 'src/interfaces/sharedInterfaces'
+import { FloatLabel } from 'primereact/floatlabel'
 
 export default function RegisterStudent(): React.JSX.Element {
   const [name, setName] = useState('')
@@ -27,6 +31,9 @@ export default function RegisterStudent(): React.JSX.Element {
   const [birthDateError, setBirthDateError] = useState('')
   const [state, setState] = useState({ name: '', code: '' })
   const [country, setCountry] = useState({ name: '', code: '' })
+  const [municipality, setMunicipality] = useState({ name: '', code: '' })
+  const [parish, setParish] = useState({ name: '', code: '' })
+  const [address, setAddress] = useState('')
   const message = useRef<Toast>(null)
   let studentAge = 0
 
@@ -292,7 +299,41 @@ export default function RegisterStudent(): React.JSX.Element {
             }}
           >
             <CountrySelector width="400px" country={country} setState={setCountry} />
-            <StateSelector width="400px" state={state} setState={setState} country={country.name} />
+            <StateSelector
+              width="400px"
+              state={state}
+              setState={setState}
+              country={country?.name || ''}
+            />
+            <MunicipalitySelector
+              width="400px"
+              municipaltie={municipality}
+              setMunicipaltie={setMunicipality}
+              stateId={state?.code || ''}
+              country={country?.name || ''}
+            />
+
+            <ParishSelector
+              width="400px"
+              parish={parish}
+              setParish={setParish}
+              country={country?.name || ''}
+              municipalityId={municipality?.code || ''}
+            />
+            <div style={{ width: '820px' }}>
+              <FloatLabel>
+                <InputTextarea
+                  autoResize
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  rows={4}
+                  cols={30}
+                  maxLength={450}
+                  style={{ width: '100%' }}
+                />
+                <label> Dirección de residencia</label>
+              </FloatLabel>
+            </div>
           </div>
         </Card>
       </div>
