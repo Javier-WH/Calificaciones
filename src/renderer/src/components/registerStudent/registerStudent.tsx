@@ -9,6 +9,8 @@ import CountrySelector from '../../modules/countrySelector'
 import RegisterStudentToolbar from './registerStudentToolbar'
 import MunicipalitySelector from '@renderer/modules/municipalitiesSelector'
 import ParishSelector from '@renderer/modules/parishSelector'
+import HeightSelector from '@renderer/modules/heigthSelector'
+import WeightSelector from '@renderer/modules/weightSelector'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { Nullable } from 'primereact/ts-helpers'
 import { Toast } from 'primereact/toast'
@@ -17,6 +19,7 @@ import {
   CreateStudentResponseInterface
 } from 'src/interfaces/sharedInterfaces'
 import { FloatLabel } from 'primereact/floatlabel'
+import HealthProblemSelector, { HealthProblemOption } from '@renderer/modules/medicalIssuesSelector'
 
 export default function RegisterStudent(): React.JSX.Element {
   const [name, setName] = useState('')
@@ -33,6 +36,10 @@ export default function RegisterStudent(): React.JSX.Element {
   const [country, setCountry] = useState({ name: '', code: '' })
   const [municipality, setMunicipality] = useState({ name: '', code: '' })
   const [parish, setParish] = useState({ name: '', code: '' })
+  const [height, setHeight] = useState<number | null>(1.7)
+  const [weight, setWeight] = useState<number | null>(60)
+  const [healthProblem, setHealthProblem] = useState<HealthProblemOption | null>(null)
+  const [otherProblemText, setOtherProblemText] = useState('')
   const [address, setAddress] = useState('')
   const message = useRef<Toast>(null)
   let studentAge = 0
@@ -225,6 +232,7 @@ export default function RegisterStudent(): React.JSX.Element {
           height: 'calc(95vh - 180px)'
         }}
       >
+        {/* Datos de identificación */}
         <Card
           title="Datos de identificación"
           subTitle="Información personal del estudiante"
@@ -283,7 +291,7 @@ export default function RegisterStudent(): React.JSX.Element {
             {getAge()}
           </div>
         </Card>
-
+        {/* Datos de direccion */}
         <Card
           title="Datos de dirección"
           subTitle="Información sobre la residencia del estudiante"
@@ -334,6 +342,32 @@ export default function RegisterStudent(): React.JSX.Element {
                 <label> Dirección de residencia</label>
               </FloatLabel>
             </div>
+          </div>
+        </Card>
+
+        <Card
+          title="Datos Biométricos"
+          subTitle="Información biometrica y de salud del estudiante"
+          style={{ maxWidth: '900px', width: '100%' }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              columnGap: '20px',
+              alignItems: 'baseline',
+              marginTop: '20px'
+            }}
+          >
+            <HeightSelector width="400px" height={height} setHeight={setHeight} min={0} max={3} />
+            <WeightSelector width="400px" weight={weight} setWeight={setWeight} min={0} max={300} />
+            <HealthProblemSelector
+              width="400px"
+              selectedProblem={healthProblem}
+              setSelectedProblem={setHealthProblem}
+              otherProblemText={otherProblemText}
+              setOtherProblemText={setOtherProblemText}
+            />
           </div>
         </Card>
       </div>
