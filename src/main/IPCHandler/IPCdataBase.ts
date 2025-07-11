@@ -6,9 +6,15 @@ import {
   CreateStudentDataInterface,
   CreateStudentResponseInterface,
   CreateNationalityResponseInterface,
-  CreateStateResponseInterface
+  CreateStateResponseInterface,
+  CreateCountryResponseInterface,
+  CreateMunicipalityResponseInterface,
+  CreateParishResponseInterface
 } from '../../interfaces/sharedInterfaces'
 import { ValidationError } from 'sequelize'
+import Countries from '../database/models/countries'
+import Municipality from '../database/models/municipality'
+import Parish from '../database/models/parish'
 
 export default function IPCdataBase(): void {
   /* Estudiantes */
@@ -65,8 +71,24 @@ export default function IPCdataBase(): void {
     }
   })
 
-  /* Estados */
+  /* Paises */
+  ipcMain.handle('db:getCountries', async () => {
+    try {
+      const countries = await Countries.findAll({ raw: true })
 
+      const response: CreateCountryResponseInterface = {
+        success: true,
+        message: 'Paises obtenidos exitosamente',
+        data: countries
+      }
+      return response
+    } catch (error: unknown) {
+      console.error('Error al obtener paises:', error)
+      return []
+    }
+  })
+
+  /* Estados */
   ipcMain.handle('db:getStates', async () => {
     try {
       const nationalities = await States.findAll({ raw: true })
@@ -79,6 +101,40 @@ export default function IPCdataBase(): void {
       return response
     } catch (error: unknown) {
       console.error('Error al obtener estados:', error)
+      return []
+    }
+  })
+
+  /* Municipios */
+  ipcMain.handle('db:getMunicipalities', async () => {
+    try {
+      const municipalitys = await Municipality.findAll({ raw: true })
+
+      const response: CreateMunicipalityResponseInterface = {
+        success: true,
+        message: 'Municipios obtenidos exitosamente',
+        data: municipalitys
+      }
+      return response
+    } catch (error: unknown) {
+      console.error('Error al obtener municipios:', error)
+      return []
+    }
+  })
+
+  /* Parroquias */
+  ipcMain.handle('db:getParishes', async () => {
+    try {
+      const parishes = await Parish.findAll({ raw: true })
+
+      const response: CreateParishResponseInterface = {
+        success: true,
+        message: 'Parroquias obtenidas exitosamente',
+        data: parishes
+      }
+      return response
+    } catch (error: unknown) {
+      console.error('Error al obtener parroquias:', error)
       return []
     }
   })

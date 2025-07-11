@@ -5,6 +5,7 @@ import NationalitySelector from '../../modules/nationalitySelector'
 import CustomCalendar from '@renderer/modules/Calendar'
 import GenderSelector from '../../modules/genderSelector'
 import StateSelector from '../../modules/stateSelector'
+import CountrySelector from '../../modules/countrySelector'
 import RegisterStudentToolbar from './registerStudentToolbar'
 import { Nullable } from 'primereact/ts-helpers'
 import { Toast } from 'primereact/toast'
@@ -20,11 +21,12 @@ export default function RegisterStudent(): React.JSX.Element {
   const [lastNameErrror, setLastNameError] = useState('')
   const [ci, setCi] = useState<number>()
   const [ciErrror, setCiError] = useState('')
-  const [nationality, setNationality] = useState()
+  const [nationality, setNationality] = useState({ name: '', code: '' })
   const [gender, setGender] = useState('M')
   const [birthDate, setBirthDate] = useState<Nullable<Date>>()
   const [birthDateError, setBirthDateError] = useState('')
-  const [state, setState] = useState()
+  const [state, setState] = useState({ name: '', code: '' })
+  const [country, setCountry] = useState({ name: '', code: '' })
   const message = useRef<Toast>(null)
   let studentAge = 0
 
@@ -100,13 +102,12 @@ export default function RegisterStudent(): React.JSX.Element {
       })
       return
     }
-    console.log(birthDate)
 
     const studentData: CreateStudentDataInterface = {
       ci: ci?.toString() || '',
       name: name,
       lastName: lastName,
-      nationality_id: nationality.code,
+      nationality_id: nationality?.code ?? '',
       gender: gender,
       birdthDate: birthDate?.toISOString() || ''
     }
@@ -290,7 +291,8 @@ export default function RegisterStudent(): React.JSX.Element {
               marginTop: '20px'
             }}
           >
-            <StateSelector width="400px" state={state} setState={setState} />
+            <CountrySelector width="400px" country={country} setState={setCountry} />
+            <StateSelector width="400px" state={state} setState={setState} country={country.name} />
           </div>
         </Card>
       </div>

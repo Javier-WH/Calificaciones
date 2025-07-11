@@ -12,14 +12,25 @@ interface State {
 export default function StateSelector({
   width = '100%',
   state,
-  setState
+  setState,
+  country
 }: {
   width?: string
   state: State
   setState: (value: State) => void
+  country: string
 }): JSX.Element {
   const [allStates, setAllStates] = useState<State[]>([])
   const [filteredStates, setFilteredStates] = useState<State[]>([])
+
+  useEffect(() => {
+    if (country === 'Venezuela') {
+      const guaricoOption = allStates.find((option) => option.name === 'Guárico')
+      if (guaricoOption) {
+        setState(guaricoOption)
+      }
+    }
+  }, [country])
 
   useEffect(() => {
     const getStates = async (): Promise<void> => {
@@ -32,9 +43,11 @@ export default function StateSelector({
       }))
 
       if (options.length > 0) {
-        // Set the initial state to the first option if not already set
         if (!state || !state.code) {
-          setState(options[0])
+          const guaricoOption = allStates.find((option) => option.name === 'Guárico')
+          if (guaricoOption) {
+            setState(guaricoOption)
+          }
         }
       }
       setAllStates(options)
@@ -52,7 +65,7 @@ export default function StateSelector({
     <div style={{ width, height: '90px', position: 'relative' }}>
       <FloatLabel>
         <AutoComplete
-          value={state ? state.name : ''}
+          value={country !== 'Venezuela' ? '' : state ? state.name : ''}
           suggestions={filteredStates}
           completeMethod={searchStates}
           field="name"
@@ -67,6 +80,7 @@ export default function StateSelector({
           dropdown
           forceSelection
           style={{ width: '100%' }}
+          disabled={country !== 'Venezuela'}
         />
         <label htmlFor="state-autocomplete">Estado</label>
       </FloatLabel>
