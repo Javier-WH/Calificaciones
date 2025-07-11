@@ -13,6 +13,7 @@ import HeightSelector from '@renderer/modules/heigthSelector'
 import WeightSelector from '@renderer/modules/weightSelector'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { Nullable } from 'primereact/ts-helpers'
+import { Checkbox } from 'primereact/checkbox'
 import { Toast } from 'primereact/toast'
 import {
   CreateStudentDataInterface,
@@ -45,6 +46,13 @@ export default function RegisterStudent(): React.JSX.Element {
   const [otherProblemText, setOtherProblemText] = useState('')
   const [address, setAddress] = useState('')
   const [healthObservations, setHealthObservations] = useState('')
+  const [documentCi, setDocumentCi] = useState(false)
+  const [documentBuenaConducta, setDocumentBuenaConducta] = useState(false)
+  const [documentCartaProsecucion, setDocumentCartaProsecucion] = useState(false)
+  const [documentPhoto, setDocumentPhoto] = useState(false)
+  const [documentPlanillaInscripcion, setDocumentPlanillaInscripcion] = useState(false)
+  const [documentPartidaNacimiento, setDocumentPartidaNacimiento] = useState(false)
+  const [documentCertificacionAprendizaje, setDocumentCertificacionAprendizaje] = useState(false)
   const message = useRef<Toast>(null)
   let studentAge = 0
 
@@ -348,7 +356,7 @@ export default function RegisterStudent(): React.JSX.Element {
             </div>
           </div>
         </Card>
-
+        {/* Datos biometricos */}
         <Card
           title="Datos biométricos"
           subTitle="Información biometrica y de salud del estudiante"
@@ -386,6 +394,122 @@ export default function RegisterStudent(): React.JSX.Element {
                 />
                 <label>Observaciones de salud (opcional)</label>
               </FloatLabel>
+            </div>
+          </div>
+        </Card>
+
+        {/* Documentos entregados */}
+        <Card
+          title="Documentos entregados"
+          subTitle="Documentos entregados de manera fisica por el estudiante"
+          style={{ maxWidth: '900px', width: '100%' }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              columnGap: '20px',
+              alignItems: 'baseline',
+              marginTop: '20px'
+            }}
+          >
+            <div
+              style={{
+                width: '820px',
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr 1fr',
+                rowGap: '10px'
+              }}
+            >
+              <div className="flex align-items-center">
+                <Checkbox
+                  inputId="document1"
+                  name="document"
+                  value="Cheese"
+                  onChange={() => setDocumentCi(!documentCi)}
+                  checked={documentCi}
+                />
+                <label htmlFor="document1" className="ml-2">
+                  Copia de la cédula
+                </label>
+              </div>
+              <div className="flex align-items-center">
+                <Checkbox
+                  inputId="document2"
+                  name="document"
+                  value="Mushroom"
+                  onChange={() => setDocumentBuenaConducta(!documentBuenaConducta)}
+                  checked={documentBuenaConducta}
+                />
+                <label htmlFor="document2" className="ml-2">
+                  Carta de buena conducta
+                </label>
+              </div>
+              <div className="flex align-items-center">
+                <Checkbox
+                  inputId="document3"
+                  name="document"
+                  value="Pepper"
+                  onChange={() => setDocumentCartaProsecucion(!documentCartaProsecucion)}
+                  checked={documentCartaProsecucion}
+                />
+                <label htmlFor="document3" className="ml-2">
+                  Carta de prosecución
+                </label>
+              </div>
+              <div className="flex align-items-center">
+                <Checkbox
+                  inputId="document4"
+                  name="document"
+                  value="Onion"
+                  onChange={() => setDocumentPhoto(!documentPhoto)}
+                  checked={documentPhoto}
+                />
+                <label htmlFor="document4" className="ml-2">
+                  Fotos tipo carnet
+                </label>
+              </div>
+
+              <div className="flex align-items-center">
+                <Checkbox
+                  inputId="document4"
+                  name="document"
+                  value="Onion"
+                  onChange={() => setDocumentPlanillaInscripcion(!documentPlanillaInscripcion)}
+                  checked={documentPlanillaInscripcion}
+                />
+                <label htmlFor="document4" className="ml-2">
+                  Planilla de inscripción
+                </label>
+              </div>
+
+              <div className="flex align-items-center">
+                <Checkbox
+                  inputId="document4"
+                  name="document"
+                  value="Onion"
+                  onChange={() => setDocumentPartidaNacimiento(!documentPartidaNacimiento)}
+                  checked={documentPartidaNacimiento}
+                />
+                <label htmlFor="document4" className="ml-2">
+                  Partida de nacimiento
+                </label>
+              </div>
+
+              <div className="flex align-items-center">
+                <Checkbox
+                  inputId="document4"
+                  name="document"
+                  value="Onion"
+                  onChange={() =>
+                    setDocumentCertificacionAprendizaje(!documentCertificacionAprendizaje)
+                  }
+                  checked={documentCertificacionAprendizaje}
+                />
+                <label htmlFor="document4" className="ml-2">
+                  Certificación de aprendizaje
+                </label>
+              </div>
             </div>
           </div>
         </Card>
