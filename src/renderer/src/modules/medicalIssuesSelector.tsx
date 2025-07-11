@@ -32,6 +32,7 @@ export default function HealthProblemSelector({
 }: HealthProblemSelectorProps): JSX.Element {
   // Lista predefinida de problemas de salud comunes
   const commonHealthProblems: HealthProblemOption[] = [
+    { name: 'Ninguno', code: 'NONE' },
     { name: 'Alergias', code: 'ALERG' },
     { name: 'Asma', code: 'ASMA' },
     { name: 'Diabetes', code: 'DIAB' },

@@ -38,7 +38,10 @@ export default function RegisterStudent(): React.JSX.Element {
   const [parish, setParish] = useState({ name: '', code: '' })
   const [height, setHeight] = useState<number | null>(1.7)
   const [weight, setWeight] = useState<number | null>(60)
-  const [healthProblem, setHealthProblem] = useState<HealthProblemOption | null>(null)
+  const [healthProblem, setHealthProblem] = useState<HealthProblemOption | null>({
+    name: 'Ninguno',
+    code: 'NONE'
+  })
   const [otherProblemText, setOtherProblemText] = useState('')
   const [address, setAddress] = useState('')
   const [healthObservations, setHealthObservations] = useState('')
@@ -347,7 +350,7 @@ export default function RegisterStudent(): React.JSX.Element {
         </Card>
 
         <Card
-          title="Datos Biométricos"
+          title="Datos biométricos"
           subTitle="Información biometrica y de salud del estudiante"
           style={{ maxWidth: '900px', width: '100%' }}
         >
@@ -381,7 +384,7 @@ export default function RegisterStudent(): React.JSX.Element {
                   maxLength={450}
                   style={{ width: '100%' }}
                 />
-                <label>Observaciones de salud</label>
+                <label>Observaciones de salud (opcional)</label>
               </FloatLabel>
             </div>
           </div>
