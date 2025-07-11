@@ -8,6 +8,10 @@ export default function databaseAPI(): void {
       studentData: CreateStudentDataInterface
     ): Promise<{ success: boolean; data: any }> => {
       return ipcRenderer.invoke('db:createStudent', studentData)
+    },
+
+    getNationalities: (): Promise<{ success: boolean; data: any }> => {
+      return ipcRenderer.invoke('db:getNationality')
     }
   })
 }

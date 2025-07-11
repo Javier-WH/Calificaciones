@@ -1,6 +1,8 @@
-import { JSX } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { JSX, useEffect, useState } from 'react'
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown'
 import { FloatLabel } from 'primereact/floatlabel'
+import { NationalityInterface } from 'src/interfaces/sharedInterfaces'
 
 interface Nationality {
   name: string
@@ -16,13 +18,23 @@ export default function NationalitySelector({
   nationality: Nationality
   setNationality: (value: Nationality) => void
 }): JSX.Element {
-  const cities: Nationality[] = [
-    { name: 'Venezolano', code: 'V' },
-    { name: 'Extranjero', code: 'E' },
-    { name: 'Pasaporte', code: 'P' },
-    { name: 'Carnet Diplomático', code: 'D' },
-    { name: 'Carnet Estudiantil', code: 'S' }
-  ]
+  const [nationalities, setNationalities] = useState<Nationality[]>([])
+  useEffect(() => {
+    const getNationalities = async (): Promise<void> => {
+      const nationalities = await window.database.getNationalities()
+      const data = nationalities.data as unknown as NationalityInterface[]
+      const options = data.map((nationality) => ({
+        name: nationality.nationality,
+        code: nationality.id
+      }))
+
+      if (options.length > 0) {
+        setNationality(options[0])
+      }
+      setNationalities(options)
+    }
+    getNationalities()
+  }, [])
 
   return (
     <div style={{ width, height: '90px', position: 'relative' }}>
@@ -30,7 +42,7 @@ export default function NationalitySelector({
         <Dropdown
           value={nationality}
           onChange={(e: DropdownChangeEvent) => setNationality(e.value)}
-          options={cities}
+          options={nationalities}
           optionLabel="name"
           placeholder="Seleccione una nacionalidad"
           style={{ width: '100%' }}

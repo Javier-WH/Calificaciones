@@ -1,6 +1,7 @@
 import {
   CreateStudentDataInterface,
-  CreateStudentResponseInterface
+  CreateStudentResponseInterface,
+  NationalityInterface
 } from 'src/interfaces/sharedInterfaces'
 
 declare global {
@@ -9,6 +10,7 @@ declare global {
       createStudent: (
         studentData: CreateStudentDataInterface
       ) => Promise<CreateStudentResponseInterface>
+      getNationalities: () => Promise<{ success: boolean; data: NationalityInterface }>
     }
   }
 }

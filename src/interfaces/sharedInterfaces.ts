@@ -12,3 +12,14 @@ export interface CreateStudentResponseInterface {
   message: string
   data?: CreateStudentDataInterface
 }
+
+export interface NationalityInterface {
+  id: string
+  nationality: string
+}
+
+export interface CreateNationalityResponseInterface {
+  success: boolean
+  message: string
+  data?: NationalityInterface[]
+}

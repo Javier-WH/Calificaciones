@@ -15,9 +15,9 @@ export default function Layout(): React.JSX.Element {
 
       <main
         style={{
-          padding: '0px 20px 0px ',
+          padding: '0px 0px 0px 20px ',
           height: 'calc(95vh - 80px)',
-          overflow: 'auto'
+          overflow: 'hidden'
         }}
       >
         <Outlet />

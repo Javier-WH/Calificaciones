@@ -1,0 +1,17 @@
+.register-student-custom-toolbar-icon-container {
+  display: flex;
+  column-gap: 30px;
+  align-items: center;
+
+}
+
+.register-student-custom-toolbar-icon-container svg{
+  cursor: pointer;
+  font-size: 30px;
+  color: var(--primary-color);
+}
+
+.register-student-custom-toolbar-icon-container svg:hover {
+  scale: 1.2;
+  filter: drop-shadow(0px 0px 5px var(--primary-color));
+}

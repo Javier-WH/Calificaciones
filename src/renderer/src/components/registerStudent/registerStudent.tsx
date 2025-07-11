@@ -4,8 +4,8 @@ import TextBox from '../../modules/inputTex'
 import NationalitySelector from '../../modules/nationalitySelector'
 import CustomCalendar from '@renderer/modules/Calendar'
 import GenderSelector from '../../modules/genderSelector'
+import RegisterStudentToolbar from './registerStudentToolbar'
 import { Nullable } from 'primereact/ts-helpers'
-import { Button } from 'primereact/button'
 import { Toast } from 'primereact/toast'
 import {
   CreateStudentDataInterface,
@@ -197,40 +197,25 @@ export default function RegisterStudent(): React.JSX.Element {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: '100px 1fr',
+        gridTemplateRows: '100px 1fr',
         height: '100%'
       }}
     >
       <Toast ref={message} position="top-center" />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}
-      >
-        <Button
-          label="Guardar"
-          icon="pi pi-save"
-          style={{ marginTop: '20px' }}
-          onClick={handleSubmit}
-        />
-        <Button label="Importar" icon="pi pi-file-excel" style={{ marginTop: '20px' }} />
-      </div>
+      <RegisterStudentToolbar handleSubmit={handleSubmit} />
 
       <div
         style={{
           display: 'flex',
-          justifyContent: 'center',
           alignItems: 'center',
-          flexWrap: 'wrap',
+          flexDirection: 'column',
           gap: '20px',
           overflowY: 'auto',
-          height: 'calc(95vh - 80px)'
+          height: 'calc(95vh - 180px)'
         }}
       >
         <Card
-          title="Identificación"
+          title="Datos de identificación"
           subTitle="Información personal del estudiante"
           style={{ maxWidth: '900px', width: '100%' }}
         >
@@ -286,6 +271,22 @@ export default function RegisterStudent(): React.JSX.Element {
             />
             {getAge()}
           </div>
+        </Card>
+
+        <Card
+          title="Datos de dirección"
+          subTitle="Información sobre la residencia del estudiante"
+          style={{ maxWidth: '900px', width: '100%' }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              columnGap: '20px',
+              alignItems: 'baseline',
+              marginTop: '20px'
+            }}
+          ></div>
         </Card>
       </div>
     </div>

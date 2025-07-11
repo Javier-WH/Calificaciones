@@ -15,9 +15,13 @@ export function initStudentsModel(sequelize: Sequelize): void {
         allowNull: false,
         unique: true
       },
-      nationality: {
-        type: DataTypes.STRING(50),
-        allowNull: false
+      nationality_id: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'nationalities',
+          key: 'id'
+        }
       },
       name: {
         type: DataTypes.STRING(50),

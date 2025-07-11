@@ -1,12 +1,16 @@
 import { ipcMain } from 'electron'
 import Students from '../database/models/students'
+import Nationality from '../database/models/nationality'
 import {
   CreateStudentDataInterface,
-  CreateStudentResponseInterface
+  CreateStudentResponseInterface,
+  CreateNationalityResponseInterface,
+  NationalityInterface
 } from '../../interfaces/sharedInterfaces'
 import { ValidationError } from 'sequelize'
 
 export default function IPCdataBase(): void {
+  // este handler se encarga de crear un estudiante
   ipcMain.handle('db:createStudent', async (_event, studentData: CreateStudentDataInterface) => {
     try {
       const newStudent = await Students.create({ ...studentData }, { raw: true })
@@ -38,6 +42,23 @@ export default function IPCdataBase(): void {
       }
 
       return response
+    }
+  })
+
+  //este handler se encarga de obtener la lista de nacionalidades
+  ipcMain.handle('db:getNationality', async () => {
+    try {
+      const nationalities = await Nationality.findAll({ raw: true })
+
+      const response: CreateNationalityResponseInterface = {
+        success: true,
+        message: 'Nacionalidades obtenidas exitosamente',
+        data: nationalities
+      }
+      return response
+    } catch (error: unknown) {
+      console.error('Error al obtener nacionalidades:', error)
+      return []
     }
   })
 }
