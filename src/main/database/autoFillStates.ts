@@ -82,7 +82,7 @@ export async function populateVenezuelaData(): Promise<void> {
 
     console.log('Población de datos completada.')
   } catch (error) {
-    console.error('Error al poblar la base de datos:', error)
-    //console.error('Error al poblar la base de datos:')
+    //console.error('Error al poblar la base de datos:', error)
+    //console.error('Error al poblar la base de datos')
   }
 }

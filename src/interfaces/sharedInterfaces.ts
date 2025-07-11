@@ -27,6 +27,19 @@ export interface CreateNationalityResponseInterface {
   data?: NationalityInterface[]
 }
 
+//interface de los paises
+export interface CountryInterface {
+  id: string
+  country: string
+  active?: boolean
+}
+
+export interface CreateCountryResponseInterface {
+  success: boolean
+  message: string
+  data?: CountryInterface[]
+}
+
 //interfaces de los estados
 export interface StateInterface {
   id: string

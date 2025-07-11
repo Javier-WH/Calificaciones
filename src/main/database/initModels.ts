@@ -4,8 +4,11 @@ import { initNationalityModel } from './models/nationality'
 import { initStatesModel } from './models/states'
 import { initParishesModel } from './models/parish'
 import { initMunicipalitiesModel } from './models/municipality'
+import { initCountriesModel } from './models/countries'
 import { ErrorDialogOptions, showDialog } from '../errorHandler/dialogs'
 import { populateVenezuelaData } from './autoFillStates'
+import { populateCountriesData } from './populateCountries'
+import { populateNationalities } from './populateNationalities'
 
 export default async function InitModels(app): Promise<void> {
   const sequelizeInstance = await getSequelizeInstance(app)
@@ -13,6 +16,7 @@ export default async function InitModels(app): Promise<void> {
   if (sequelizeInstance) {
     console.log('Inicializando modelos...')
 
+    initCountriesModel(sequelizeInstance)
     initStatesModel(sequelizeInstance)
     initMunicipalitiesModel(sequelizeInstance)
     initParishesModel(sequelizeInstance)
@@ -26,6 +30,8 @@ export default async function InitModels(app): Promise<void> {
       )
 
       await populateVenezuelaData()
+      await populateCountriesData()
+      await populateNationalities()
     } catch (error) {
       console.error('Error al sincronizar los modelos: ', error)
       const errorDialogOptions: ErrorDialogOptions = {
