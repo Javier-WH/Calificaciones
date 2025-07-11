@@ -4,6 +4,7 @@ import TextBox from '../../modules/inputTex'
 import NationalitySelector from '../../modules/nationalitySelector'
 import CustomCalendar from '@renderer/modules/Calendar'
 import GenderSelector from '../../modules/genderSelector'
+import StateSelector from '../../modules/stateSelector'
 import RegisterStudentToolbar from './registerStudentToolbar'
 import { Nullable } from 'primereact/ts-helpers'
 import { Toast } from 'primereact/toast'
@@ -19,10 +20,11 @@ export default function RegisterStudent(): React.JSX.Element {
   const [lastNameErrror, setLastNameError] = useState('')
   const [ci, setCi] = useState<number>()
   const [ciErrror, setCiError] = useState('')
-  const [nationality, setNationality] = useState({ name: 'Venezolano', code: 'V' })
+  const [nationality, setNationality] = useState()
   const [gender, setGender] = useState('M')
   const [birthDate, setBirthDate] = useState<Nullable<Date>>()
   const [birthDateError, setBirthDateError] = useState('')
+  const [state, setState] = useState()
   const message = useRef<Toast>(null)
   let studentAge = 0
 
@@ -98,14 +100,15 @@ export default function RegisterStudent(): React.JSX.Element {
       })
       return
     }
+    console.log(birthDate)
 
     const studentData: CreateStudentDataInterface = {
       ci: ci?.toString() || '',
       name: name,
       lastName: lastName,
-      nationality: nationality.name,
+      nationality_id: nationality.code,
       gender: gender,
-      birdthDate: birthDate?.toString() || ''
+      birdthDate: birthDate?.toISOString() || ''
     }
     try {
       const response: CreateStudentResponseInterface =
@@ -286,7 +289,9 @@ export default function RegisterStudent(): React.JSX.Element {
               alignItems: 'baseline',
               marginTop: '20px'
             }}
-          ></div>
+          >
+            <StateSelector width="400px" state={state} setState={setState} />
+          </div>
         </Card>
       </div>
     </div>

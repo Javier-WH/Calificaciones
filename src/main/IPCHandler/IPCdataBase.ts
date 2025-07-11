@@ -1,15 +1,17 @@
 import { ipcMain } from 'electron'
 import Students from '../database/models/students'
 import Nationality from '../database/models/nationality'
+import States from '../database/models/states'
 import {
   CreateStudentDataInterface,
   CreateStudentResponseInterface,
   CreateNationalityResponseInterface,
-  NationalityInterface
+  CreateStateResponseInterface
 } from '../../interfaces/sharedInterfaces'
 import { ValidationError } from 'sequelize'
 
 export default function IPCdataBase(): void {
+  /* Estudiantes */
   // este handler se encarga de crear un estudiante
   ipcMain.handle('db:createStudent', async (_event, studentData: CreateStudentDataInterface) => {
     try {
@@ -33,6 +35,7 @@ export default function IPCdataBase(): void {
           if (errorMessage === 'ci must be unique') {
             response.message = 'La cédula ingresada ya se encuentra registrada'
           } else {
+            console.error('Error de validación:', error)
             response.message = `Error de validación: ${errorMessage}`
           }
         }
@@ -44,7 +47,7 @@ export default function IPCdataBase(): void {
       return response
     }
   })
-
+  /* Nacionalidades */
   //este handler se encarga de obtener la lista de nacionalidades
   ipcMain.handle('db:getNationality', async () => {
     try {
@@ -58,6 +61,24 @@ export default function IPCdataBase(): void {
       return response
     } catch (error: unknown) {
       console.error('Error al obtener nacionalidades:', error)
+      return []
+    }
+  })
+
+  /* Estados */
+
+  ipcMain.handle('db:getStates', async () => {
+    try {
+      const nationalities = await States.findAll({ raw: true })
+
+      const response: CreateStateResponseInterface = {
+        success: true,
+        message: 'Estados obtenidos exitosamente',
+        data: nationalities
+      }
+      return response
+    } catch (error: unknown) {
+      console.error('Error al obtener estados:', error)
       return []
     }
   })

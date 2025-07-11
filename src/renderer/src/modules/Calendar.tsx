@@ -56,6 +56,8 @@ export default function CustomCalendar({
     clear: 'Limpiar'
   })
 
+  const today = new Date()
+  const tenYearsAgo = new Date(today.setFullYear(today.getFullYear() - 10))
   return (
     <div style={{ width: width, height: '90px', position: 'relative' }}>
       <FloatLabel>
@@ -68,6 +70,9 @@ export default function CustomCalendar({
           showButtonBar
           style={{ width: '100%' }}
           invalid={error}
+          viewDate={tenYearsAgo}
+          maxDate={new Date()}
+          readOnlyInput
         />
         <label htmlFor="birth_date">{label}</label>
       </FloatLabel>

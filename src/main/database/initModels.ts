@@ -1,6 +1,7 @@
 import { getSequelizeInstance } from './connect'
 import { initStudentsModel } from './models/students'
 import { initNationalityModel } from './models/nationality'
+import { initStatesModel } from './models/states'
 import { ErrorDialogOptions, showDialog } from '../errorHandler/dialogs'
 
 export default async function InitModels(app): Promise<void> {
@@ -9,6 +10,7 @@ export default async function InitModels(app): Promise<void> {
   if (sequelizeInstance) {
     console.log('Inicializando modelos...')
 
+    initStatesModel(sequelizeInstance)
     initNationalityModel(sequelizeInstance)
     initStudentsModel(sequelizeInstance)
 

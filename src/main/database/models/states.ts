@@ -1,24 +1,24 @@
 import { DataTypes, Model, Sequelize } from 'sequelize'
-import { NationalityInterface } from '../../../interfaces/sharedInterfaces'
+import { StateInterface } from '../../../interfaces/sharedInterfaces'
 
-export default class Nationality
-  extends Model<NationalityInterface, Omit<NationalityInterface, 'id'>>
-  implements NationalityInterface
+export default class State
+  extends Model<StateInterface, Omit<StateInterface, 'id'>>
+  implements StateInterface
 {
   public id!: string
-  public nationality!: string
+  public state!: string
   public active?: boolean
 }
 
-export function initNationalityModel(sequelize: Sequelize): void {
-  Nationality.init(
+export function initStatesModel(sequelize: Sequelize): void {
+  State.init(
     {
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4
       },
-      nationality: {
+      state: {
         type: DataTypes.STRING(50),
         allowNull: false,
         unique: true
@@ -30,7 +30,7 @@ export function initNationalityModel(sequelize: Sequelize): void {
     },
     {
       sequelize,
-      modelName: 'nationalities',
+      modelName: 'states',
       timestamps: false,
       charset: 'utf8mb4',
       collate: 'utf8mb4_unicode_ci'

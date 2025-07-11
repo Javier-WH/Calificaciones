@@ -12,6 +12,9 @@ export default function databaseAPI(): void {
 
     getNationalities: (): Promise<{ success: boolean; data: any }> => {
       return ipcRenderer.invoke('db:getNationality')
+    },
+    getStates: (): Promise<{ success: boolean; data: any }> => {
+      return ipcRenderer.invoke('db:getStates')
     }
   })
 }

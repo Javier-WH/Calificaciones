@@ -23,7 +23,8 @@ export default function NationalitySelector({
     const getNationalities = async (): Promise<void> => {
       const nationalities = await window.database.getNationalities()
       const data = nationalities.data as unknown as NationalityInterface[]
-      const options = data.map((nationality) => ({
+      const filteredData = data.filter((nationality) => nationality.active)
+      const options = filteredData.map((nationality) => ({
         name: nationality.nationality,
         code: nationality.id
       }))

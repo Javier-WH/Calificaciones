@@ -1,6 +1,7 @@
+// interfaces de los estudiantes
 export interface CreateStudentDataInterface {
   ci: string
-  nationality: string
+  nationality_id: string
   name: string
   lastName: string
   gender: string
@@ -13,13 +14,28 @@ export interface CreateStudentResponseInterface {
   data?: CreateStudentDataInterface
 }
 
+// interfaces de nacionalidades
 export interface NationalityInterface {
   id: string
   nationality: string
+  active?: boolean
 }
 
 export interface CreateNationalityResponseInterface {
   success: boolean
   message: string
   data?: NationalityInterface[]
+}
+
+//interfaces de los estados
+export interface StateInterface {
+  id: string
+  state: string
+  active?: boolean
+}
+
+export interface CreateStateResponseInterface {
+  success: boolean
+  message: string
+  data?: StateInterface[]
 }
