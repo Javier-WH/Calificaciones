@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { JSX, useEffect, useState } from 'react'
-import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown'
-import { AutoComplete } from 'primereact/autocomplete'
+import { AutoComplete, AutoCompleteCompleteEvent } from 'primereact/autocomplete'
 import { FloatLabel } from 'primereact/floatlabel'
 import { StateInterface } from 'src/interfaces/sharedInterfaces'
 
@@ -19,7 +18,8 @@ export default function StateSelector({
   state: State
   setState: (value: State) => void
 }): JSX.Element {
-  const [states, setStates] = useState<State[]>([])
+  const [allStates, setAllStates] = useState<State[]>([])
+  const [filteredStates, setFilteredStates] = useState<State[]>([])
 
   useEffect(() => {
     const getStates = async (): Promise<void> => {
@@ -32,25 +32,43 @@ export default function StateSelector({
       }))
 
       if (options.length > 0) {
-        setState(options[0])
+        // Set the initial state to the first option if not already set
+        if (!state || !state.code) {
+          setState(options[0])
+        }
       }
-      setStates(options)
+      setAllStates(options)
     }
     getStates()
   }, [])
 
+  const searchStates = (event: AutoCompleteCompleteEvent): void => {
+    const query = event.query.toLowerCase()
+    const _filteredStates = allStates.filter((s) => s.name.toLowerCase().includes(query))
+    setFilteredStates(_filteredStates)
+  }
+
   return (
     <div style={{ width, height: '90px', position: 'relative' }}>
       <FloatLabel>
-        <Dropdown
-          value={state}
-          onChange={(e: DropdownChangeEvent) => setState(e.value)}
-          options={states}
-          optionLabel="name"
-          placeholder="Seleccione un estado"
+        <AutoComplete
+          value={state ? state.name : ''}
+          suggestions={filteredStates}
+          completeMethod={searchStates}
+          field="name"
+          onChange={(e) => {
+            if (typeof e.value === 'object') {
+              setState(e.value)
+            } else {
+              setState({ name: e.value, code: '' })
+            }
+          }}
+          onSelect={(e) => setState(e.value as State)}
+          dropdown
+          forceSelection
           style={{ width: '100%' }}
         />
-        <label htmlFor="birth_date">Estado</label>
+        <label htmlFor="state-autocomplete">Estado</label>
       </FloatLabel>
     </div>
   )

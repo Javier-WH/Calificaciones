@@ -39,3 +39,31 @@ export interface CreateStateResponseInterface {
   message: string
   data?: StateInterface[]
 }
+
+// interfaces de municipios
+export interface MunicipalityInterface {
+  id: string
+  state_id: string
+  municipality: string
+  active?: boolean
+}
+
+export interface CreateMunicipalityResponseInterface {
+  success: boolean
+  message: string
+  data?: MunicipalityInterface[]
+}
+
+// interfaces de parroquias
+export interface ParishInterface {
+  id: string
+  municipality_id: string
+  parish: string
+  active?: boolean
+}
+
+export interface CreateParishResponseInterface {
+  success: boolean
+  message: string
+  data?: ParishInterface[]
+}
