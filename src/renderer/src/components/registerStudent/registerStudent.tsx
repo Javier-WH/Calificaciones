@@ -1,11 +1,16 @@
 import { Card } from 'primereact/card'
-import React, { JSX, useState } from 'react'
+import React, { JSX, useRef, useState } from 'react'
 import TextBox from '../../modules/inputTex'
 import NationalitySelector from '../../modules/nationalitySelector'
 import CustomCalendar from '@renderer/modules/Calendar'
 import GenderSelector from '../../modules/genderSelector'
 import { Nullable } from 'primereact/ts-helpers'
 import { Button } from 'primereact/button'
+import { Toast } from 'primereact/toast'
+import {
+  CreateStudentDataInterface,
+  CreateStudentResponseInterface
+} from 'src/interfaces/sharedInterfaces'
 
 export default function RegisterStudent(): React.JSX.Element {
   const [name, setName] = useState('')
@@ -18,6 +23,7 @@ export default function RegisterStudent(): React.JSX.Element {
   const [gender, setGender] = useState('M')
   const [birthDate, setBirthDate] = useState<Nullable<Date>>()
   const [birthDateError, setBirthDateError] = useState('')
+  const message = useRef<Toast>(null)
   let studentAge = 0
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -83,8 +89,43 @@ export default function RegisterStudent(): React.JSX.Element {
   }
 
   const handleSubmit = async (): Promise<void> => {
+    if (!message.current) return
     if (isInvalid()) {
+      message.current.show({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Verifique los campos'
+      })
       return
+    }
+
+    const studentData: CreateStudentDataInterface = {
+      ci: ci?.toString() || '',
+      name: name,
+      lastName: lastName,
+      nationality: nationality.name,
+      gender: gender,
+      birdthDate: birthDate?.toString() || ''
+    }
+    try {
+      const response: CreateStudentResponseInterface =
+        await window.database.createStudent(studentData)
+
+      if (response.success) {
+        message.current.show({
+          severity: 'success',
+          summary: 'Estudiante creado',
+          detail: response.message
+        })
+      } else {
+        message.current.show({
+          severity: 'error',
+          summary: 'Error',
+          detail: response.message
+        })
+      }
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -155,72 +196,98 @@ export default function RegisterStudent(): React.JSX.Element {
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column'
+        display: 'grid',
+        gridTemplateColumns: '100px 1fr',
+        height: '100%'
       }}
     >
-      <Card
-        title="Identificación"
-        subTitle="Información personal del estudiante"
-        style={{ maxWidth: '900px', width: '100%', height: '100%' }}
+      <Toast ref={message} position="top-center" />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
       >
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            columnGap: '20px',
-            alignItems: 'baseline',
-            marginTop: '20px'
-          }}
+        <Button
+          label="Guardar"
+          icon="pi pi-save"
+          style={{ marginTop: '20px' }}
+          onClick={handleSubmit}
+        />
+        <Button label="Importar" icon="pi pi-file-excel" style={{ marginTop: '20px' }} />
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '20px',
+          overflowY: 'auto',
+          height: 'calc(95vh - 80px)'
+        }}
+      >
+        <Card
+          title="Identificación"
+          subTitle="Información personal del estudiante"
+          style={{ maxWidth: '900px', width: '100%' }}
         >
-          <NationalitySelector
-            nationality={nationality}
-            setNationality={setNationality}
-            width="400px"
-          />
-          <TextBox
-            value={ci}
-            onChange={handleCiChange}
-            label="Cédula de Identidad"
-            error={ciErrror !== ''}
-            message={ciErrror}
-            width="400px"
-            type="number"
-          />
-          <TextBox
-            value={name}
-            onChange={handleNameChange}
-            label="Nombres"
-            error={nameErrror !== ''}
-            message={nameErrror}
-            width="400px"
-          />
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              columnGap: '20px',
+              alignItems: 'baseline',
+              marginTop: '20px'
+            }}
+          >
+            <NationalitySelector
+              nationality={nationality}
+              setNationality={setNationality}
+              width="400px"
+            />
+            <TextBox
+              value={ci}
+              onChange={handleCiChange}
+              label="Cédula de Identidad"
+              error={ciErrror !== ''}
+              message={ciErrror}
+              width="400px"
+              type="number"
+            />
+            <TextBox
+              value={name}
+              onChange={handleNameChange}
+              label="Nombres"
+              error={nameErrror !== ''}
+              message={nameErrror}
+              width="400px"
+            />
 
-          <TextBox
-            value={lastName}
-            onChange={handleLastNameChange}
-            label="Apellidos"
-            error={lastNameErrror !== ''}
-            message={lastNameErrror}
-            width="400px"
-          />
+            <TextBox
+              value={lastName}
+              onChange={handleLastNameChange}
+              label="Apellidos"
+              error={lastNameErrror !== ''}
+              message={lastNameErrror}
+              width="400px"
+            />
 
-          <GenderSelector gender={gender} setGender={setGender} width="400px" />
-          <CustomCalendar
-            date={birthDate}
-            setDate={handleBirthDateChange}
-            width="250px"
-            label="Fecha de nacimiento"
-            error={birthDateError !== ''}
-            message={birthDateError}
-          />
-          {getAge()}
-        </div>
-      </Card>
-
-      <Button label="Guardar" style={{ marginTop: '20px' }} onClick={handleSubmit} />
+            <GenderSelector gender={gender} setGender={setGender} width="400px" />
+            <CustomCalendar
+              date={birthDate}
+              setDate={handleBirthDateChange}
+              width="250px"
+              label="Fecha de nacimiento"
+              error={birthDateError !== ''}
+              message={birthDateError}
+            />
+            {getAge()}
+          </div>
+        </Card>
+      </div>
     </div>
   )
 }
