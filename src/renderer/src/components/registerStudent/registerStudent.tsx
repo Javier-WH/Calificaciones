@@ -41,6 +41,7 @@ export default function RegisterStudent(): React.JSX.Element {
   const [healthProblem, setHealthProblem] = useState<HealthProblemOption | null>(null)
   const [otherProblemText, setOtherProblemText] = useState('')
   const [address, setAddress] = useState('')
+  const [healthObservations, setHealthObservations] = useState('')
   const message = useRef<Toast>(null)
   let studentAge = 0
 
@@ -368,6 +369,21 @@ export default function RegisterStudent(): React.JSX.Element {
               otherProblemText={otherProblemText}
               setOtherProblemText={setOtherProblemText}
             />
+
+            <div style={{ width: '820px', marginTop: '20px' }}>
+              <FloatLabel>
+                <InputTextarea
+                  autoResize
+                  value={healthObservations}
+                  onChange={(e) => setHealthObservations(e.target.value)}
+                  rows={4}
+                  cols={30}
+                  maxLength={450}
+                  style={{ width: '100%' }}
+                />
+                <label>Observaciones de salud</label>
+              </FloatLabel>
+            </div>
           </div>
         </Card>
       </div>
